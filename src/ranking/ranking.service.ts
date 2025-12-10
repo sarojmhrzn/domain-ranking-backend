@@ -40,6 +40,10 @@ export class RankingService {
     const response = await fetch(url);
     const json = await response.json();
 
+    if (!json.ranks || !Array.isArray(json.ranks)) {
+      throw new Error('Invalid response from Tranco API');
+    }
+
     // Save to DB
     await this.rankingModel.destroy({ where: { domain } });
 
